@@ -1,6 +1,6 @@
 package dev.angelcruzl.msvc.courses.controllers;
 
-import dev.angelcruzl.msvc.courses.entities.Course;
+import dev.angelcruzl.msvc.courses.models.entities.Course;
 import dev.angelcruzl.msvc.courses.services.CourseService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

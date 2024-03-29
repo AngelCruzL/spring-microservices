@@ -1,6 +1,6 @@
 package dev.angelcruzl.msvc.courses.services;
 
-import dev.angelcruzl.msvc.courses.entities.Course;
+import dev.angelcruzl.msvc.courses.models.entities.Course;
 import dev.angelcruzl.msvc.courses.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
