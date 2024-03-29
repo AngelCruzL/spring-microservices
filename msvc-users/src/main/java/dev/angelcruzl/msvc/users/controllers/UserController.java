@@ -2,12 +2,16 @@ package dev.angelcruzl.msvc.users.controllers;
 
 import dev.angelcruzl.msvc.users.models.entities.User;
 import dev.angelcruzl.msvc.users.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -15,13 +19,24 @@ public class UserController {
     @Autowired
     private UserService service;
 
+    private static ResponseEntity<Map<String, String>> validateUser(BindingResult result) {
+        Map<String, String> errors = new HashMap<>();
+        result.getFieldErrors().forEach(
+                err -> errors.put(err.getField(), "El campo " + err.getDefaultMessage())
+        );
+        return ResponseEntity.badRequest().body(errors);
+    }
+
     @GetMapping
     public List<User> findAll() {
         return service.findAll();
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody User user) {
+    public ResponseEntity<?> create(@Valid @RequestBody User user, BindingResult result) {
+        if (result.hasErrors()) {
+            return validateUser(result);
+        }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
     }
 
@@ -36,7 +51,11 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@RequestBody User user, @PathVariable Long id) {
+    public ResponseEntity<?> update(@Valid @RequestBody User user, @PathVariable Long id,
+                                    BindingResult result) {
+        if (result.hasErrors()) {
+            return validateUser(result);
+        }
         Optional<User> optionalUser = service.findById(id);
         if (optionalUser.isPresent()) {
             User userDb = optionalUser.get();
