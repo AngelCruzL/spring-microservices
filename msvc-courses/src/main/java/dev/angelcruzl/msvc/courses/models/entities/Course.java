@@ -20,8 +20,12 @@ public class Course {
     @JoinColumn(name = "course_id")
     private List<CourseUser> courseUsers;
 
+    @Transient
+    private List<dev.angelcruzl.msvc.courses.models.User> users;
+
     public Course() {
         courseUsers = new ArrayList<>();
+        users = new ArrayList<>();
     }
 
     public Long getId() {
