@@ -1,0 +1,28 @@
+version: '3.7'
+
+services:
+  db-msvcUsers:
+    container_name: msvcUsers
+    image: mysql:8
+    restart: always
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: msvc_users
+      MYSQL_ROOT_PASSWORD: Secret123
+      MYSQL_PASSWORD: Secret123
+    volumes:
+      - ./sql-data:/var/lib/mysqlS
+
+  db-msvcCourses:
+    container_name: msvcCourses
+    image: postgres:14.3
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: msvc_courses
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Secret123
+    volumes:
+      - ./postgres:/var/lib/postgresql/data
