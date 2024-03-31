@@ -1,5 +1,6 @@
 package dev.angelcruzl.msvc.courses.services;
 
+import dev.angelcruzl.msvc.courses.models.User;
 import dev.angelcruzl.msvc.courses.models.entities.Course;
 
 import java.util.List;
@@ -13,4 +14,10 @@ public interface CourseService {
     Course save(Course course);
 
     void deleteById(Long id);
+
+    Optional<User> createUser(Long courseId, User user);
+
+    Optional<User> assignUser(Long courseId, User user);
+
+    Optional<User> unassignUser(Long courseId, User user);
 }

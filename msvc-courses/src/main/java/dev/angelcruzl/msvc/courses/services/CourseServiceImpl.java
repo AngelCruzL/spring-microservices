@@ -1,5 +1,7 @@
 package dev.angelcruzl.msvc.courses.services;
 
+import dev.angelcruzl.msvc.courses.clients.UserClientRest;
+import dev.angelcruzl.msvc.courses.models.User;
 import dev.angelcruzl.msvc.courses.models.entities.Course;
 import dev.angelcruzl.msvc.courses.repositories.CourseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,9 @@ import java.util.Optional;
 public class CourseServiceImpl implements CourseService {
     @Autowired
     private CourseRepository repository;
+
+    @Autowired
+    private UserClientRest client;
 
     @Override
     @Transactional(readOnly = true)
@@ -36,5 +41,20 @@ public class CourseServiceImpl implements CourseService {
     @Transactional
     public void deleteById(Long id) {
         repository.deleteById(id);
+    }
+
+    @Override
+    public Optional<User> createUser(Long courseId, User user) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> assignUser(Long courseId, User user) {
+        return Optional.empty();
+    }
+
+    @Override
+    public Optional<User> unassignUser(Long courseId, User user) {
+        return Optional.empty();
     }
 }
