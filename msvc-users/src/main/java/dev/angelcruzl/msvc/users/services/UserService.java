@@ -14,6 +14,8 @@ public interface UserService {
 
     void deleteById(Long id);
 
+    List<User> listByIds(Iterable<Long> ids);
+
     Optional<User> findByEmail(String email);
 
     boolean existsByEmail(String email);

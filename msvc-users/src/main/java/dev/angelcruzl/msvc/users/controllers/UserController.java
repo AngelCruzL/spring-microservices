@@ -87,4 +87,9 @@ public class UserController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/users-by-course")
+    public ResponseEntity<?> listByIds(@RequestParam List<Long> ids) {
+        return ResponseEntity.ok(service.listByIds(ids));
+    }
 }
