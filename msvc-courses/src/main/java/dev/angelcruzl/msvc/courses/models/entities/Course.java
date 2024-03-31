@@ -1,5 +1,6 @@
 package dev.angelcruzl.msvc.courses.models.entities;
 
+import dev.angelcruzl.msvc.courses.models.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
 
@@ -58,5 +59,13 @@ public class Course {
 
     public void removeCourseUser(CourseUser courseUser) {
         courseUsers.remove(courseUser);
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
