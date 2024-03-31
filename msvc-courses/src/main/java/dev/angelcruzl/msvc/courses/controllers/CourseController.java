@@ -1,7 +1,9 @@
 package dev.angelcruzl.msvc.courses.controllers;
 
+import dev.angelcruzl.msvc.courses.models.User;
 import dev.angelcruzl.msvc.courses.models.entities.Course;
 import dev.angelcruzl.msvc.courses.services.CourseService;
+import feign.FeignException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -9,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -72,6 +75,57 @@ public class CourseController {
         if (course.isPresent()) {
             service.deleteById(id);
             return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PostMapping("/create-user/{courseId}")
+    public ResponseEntity<?> createUser(@PathVariable Long courseId, @RequestBody User user) {
+        Optional<User> optionalUser = null;
+        try {
+            optionalUser = service.createUser(courseId, user);
+        } catch (FeignException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("message", "No se pudo crear el usuario,"
+                            + " error: " + e.getMessage()));
+        }
+        if (optionalUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(optionalUser.get());
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @PutMapping("/assign-user/{courseId}")
+    public ResponseEntity<?> assignUser(@PathVariable Long courseId, @RequestBody User user) {
+        Optional<User> optionalUser = null;
+        try {
+            optionalUser = service.assignUser(courseId, user);
+        } catch (FeignException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("message", "No existe el usuario con el id "
+                            + user.getId() + ", error: " + e.getMessage()));
+        }
+        if (optionalUser.isPresent()) {
+            return ResponseEntity.status(HttpStatus.CREATED).body(optionalUser.get());
+        }
+
+        return ResponseEntity.notFound().build();
+    }
+
+    @DeleteMapping("/unassign-user/{courseId}")
+    public ResponseEntity<?> unassignUser(@PathVariable Long courseId, @RequestBody User user) {
+        Optional<User> optionalUser = null;
+        try {
+            optionalUser = service.unassignUser(courseId, user);
+        } catch (FeignException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(Collections.singletonMap("message", "No existe el usuario con el id "
+                            + user.getId() + ", error: " + e.getMessage()));
+        }
+        if (optionalUser.isPresent()) {
+            return ResponseEntity.ok(optionalUser.get());
         }
 
         return ResponseEntity.notFound().build();
