@@ -33,6 +33,26 @@ public class CourseServiceImpl implements CourseService {
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public Optional<Course> findByIdWithUsers(Long id) {
+        Optional<Course> optionalCourse = repository.findById(id);
+        if (optionalCourse.isPresent()) {
+            Course course = optionalCourse.get();
+            if (!course.getCourseUsers().isEmpty()) {
+                List<Long> ids = course.getCourseUsers().stream()
+                        .map(CourseUser::getUserId).toList();
+
+                List<User> users = client.listByIds(ids);
+                course.setUsers(users);
+            }
+
+            return Optional.of(course);
+        }
+
+        return Optional.empty();
+    }
+
+    @Override
     @Transactional
     public Course save(Course course) {
         return repository.save(course);

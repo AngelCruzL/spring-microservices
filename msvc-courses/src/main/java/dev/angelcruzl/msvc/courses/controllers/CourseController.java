@@ -30,13 +30,14 @@ public class CourseController {
     }
 
     @GetMapping
+
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable Long id) {
-        Optional<Course> course = service.findById(id);
+        Optional<Course> course = service.findByIdWithUsers(id);
         if (course.isPresent()) {
             return ResponseEntity.ok(course.get());
         }
