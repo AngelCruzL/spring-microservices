@@ -1,0 +1,15 @@
+### Get users
+GET {{users}}
+
+### Create user
+POST {{users}}
+Content-Type: application/json
+
+{
+  "name": "{{$random.alphabetic(6)}}",
+  "email": "{{$random.email}}",
+  "password": "123456"
+}
+
+### Get users by course
+GET {{users}}users-by-course?ids=1,3

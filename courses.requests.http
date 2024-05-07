@@ -1,0 +1,13 @@
+### Get courses
+{{courses}}
+
+### Create course
+{{courses}}/
+Content-Type: application/json
+
+{
+  "name": "Aprende microservicios con spring"
+}
+
+### Get course detail
+{{courses}}/1
