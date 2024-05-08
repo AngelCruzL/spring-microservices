@@ -18,6 +18,7 @@ import java.util.Optional;
 
 @RestController
 public class CourseController {
+
     @Autowired
     private CourseService service;
 
@@ -30,7 +31,6 @@ public class CourseController {
     }
 
     @GetMapping
-
     public ResponseEntity<?> findAll() {
         return ResponseEntity.ok(service.findAll());
     }
@@ -131,4 +131,11 @@ public class CourseController {
 
         return ResponseEntity.notFound().build();
     }
+
+    @DeleteMapping("/delete-user/{userId}")
+    public ResponseEntity<?> deleteCourseUserByUserId(@PathVariable Long userId) {
+        service.deleteCourseUserByUserId(userId);
+        return ResponseEntity.noContent().build();
+    }
+
 }
