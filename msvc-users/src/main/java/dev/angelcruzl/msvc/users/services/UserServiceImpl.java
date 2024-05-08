@@ -1,5 +1,6 @@
 package dev.angelcruzl.msvc.users.services;
 
+import dev.angelcruzl.msvc.users.clients.CourseClientRest;
 import dev.angelcruzl.msvc.users.models.entities.User;
 import dev.angelcruzl.msvc.users.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,8 +12,12 @@ import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepository repository;
+
+    @Autowired
+    private CourseClientRest client;
 
     @Override
     @Transactional(readOnly = true)
@@ -36,6 +41,7 @@ public class UserServiceImpl implements UserService {
     @Transactional
     public void deleteById(Long id) {
         repository.deleteById(id);
+        client.deleteCourseUserByUserId(id);
     }
 
     @Override
@@ -53,4 +59,5 @@ public class UserServiceImpl implements UserService {
     public boolean existsByEmail(String email) {
         return repository.existsByEmail(email);
     }
+
 }

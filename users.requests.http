@@ -13,3 +13,6 @@ Content-Type: application/json
 
 ### Get users by course
 GET {{users}}users-by-course?ids=1,3
+
+### Delete user (and unasign from courses)
+DELETE {{users}}/2
