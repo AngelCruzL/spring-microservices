@@ -40,3 +40,4 @@ build/
 ### Docker ###
 postgres/
 sql-data/
+logs
