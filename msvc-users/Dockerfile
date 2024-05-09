@@ -1,4 +1,4 @@
-FROM openjdk:17.0.2-jdk-slim
+FROM openjdk:17-jdk-slim AS builder
 
 LABEL authors="angelcruz"
 
@@ -15,6 +15,12 @@ COPY ./msvc-users/src ./src
 
 RUN ./mvnw clean package -DskipTests
 
+FROM openjdk:17-jdk-slim
+
+WORKDIR /app
+
+COPY --from=builder /app/msvc-users/target/msvc-users-0.0.1-SNAPSHOT.jar .
+
 EXPOSE 8001
 
-ENTRYPOINT ["java", "-jar", "target/msvc-users-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "msvc-users-0.0.1-SNAPSHOT.jar"]
