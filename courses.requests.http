@@ -11,3 +11,35 @@ Content-Type: application/json
 
 ### Get course detail
 {{courses}}/1
+
+### Create user into course
+POST {{courses}}/create-user/1
+Content-Type: application/json
+
+{
+  "name": "Luis Cruz",
+  "email": "test@angelcruzl.dev",
+  "password": "123456"
+}
+
+### Assign user into course
+PUT {{courses}}/assign-user/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Ángel Cruz",
+  "email": "me@angelcruzl.dev",
+  "password": "123456"
+}
+
+### Unassign user into course
+DELETE {{courses}}/unassign-user/1
+Content-Type: application/json
+
+{
+  "id": 1,
+  "name": "Ángel Cruz",
+  "email": "me@angelcruzl.dev",
+  "password": "123456"
+}

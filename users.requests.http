@@ -11,6 +11,9 @@ Content-Type: application/json
   "password": "123456"
 }
 
+### Get user by id
+GET {{users}}/1
+
 ### Get users by course
 GET {{users}}users-by-course?ids=1,3
 
