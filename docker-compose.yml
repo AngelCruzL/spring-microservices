@@ -31,11 +31,13 @@ services:
     networks:
       - spring
 
-  msvcUsers:
+  msvc-users:
     container_name: msvc-users
     depends_on:
       - db-msvcUsers
-    image: msvc-users
+    build:
+      context: ./
+      dockerfile: ./msvc-users/Dockerfile
     restart: always
     ports:
       - "8001:8001"
@@ -44,11 +46,14 @@ services:
     networks:
       - spring
 
-  msvcCourses:
+  msvc-courses:
     container_name: msvc-courses
     depends_on:
       - db-msvcCourses
-    image: msvc-courses
+      - msvc-users
+    build:
+      context: ./
+      dockerfile: ./msvc-courses/Dockerfile
     restart: always
     ports:
       - "8002:8002"
