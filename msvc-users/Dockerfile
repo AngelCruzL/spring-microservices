@@ -1,27 +1,33 @@
+ARG MSVC_NAME=msvc-users
+
 FROM openjdk:17-jdk-slim AS builder
+ARG MSVC_NAME
+LABEL authors="Ángel Cruz"
 
-LABEL authors="angelcruz"
-
-WORKDIR /app/msvc-users
+WORKDIR /app/${MSVC_NAME}
 
 COPY ./pom.xml /app
-COPY ./msvc-users/.mvn ./.mvn
-COPY ./msvc-users/mvnw .
-COPY ./msvc-users/pom.xml .
+COPY ./${MSVC_NAME}/.mvn ./.mvn
+COPY ./${MSVC_NAME}/mvnw .
+COPY ./${MSVC_NAME}/pom.xml .
 
 RUN ./mvnw clean package -Dmaven.test.skip=true -Dmaven.main.skip=true -Dspring-boot.repackage.skip=true && rm -rf ./target/
 
-COPY ./msvc-users/src ./src
+COPY ./${MSVC_NAME}/src ./src
 
 RUN ./mvnw clean package -DskipTests
 
 FROM openjdk:17-jdk-slim
+ARG MSVC_NAME
 
 WORKDIR /app
 RUN mkdir /app/logs
 
-COPY --from=builder /app/msvc-users/target/msvc-users-0.0.1-SNAPSHOT.jar .
+ARG TARGET_FOLDER=/app/${MSVC_NAME}/target
+COPY --from=builder ${TARGET_FOLDER}/msvc-users-0.0.1-SNAPSHOT.jar .
 
-EXPOSE 8001
+ARG APP_PORT=8001
+ENV PORT=${APP_PORT}
+EXPOSE ${PORT}
 
 CMD ["java", "-jar", "msvc-users-0.0.1-SNAPSHOT.jar"]
