@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
   db-msvcUsers:
-    container_name: msvcUsers
+    container_name: msvcUsersDB
     image: mysql:8
     restart: always
     ports:
@@ -12,10 +12,12 @@ services:
       MYSQL_ROOT_PASSWORD: Secret123
       MYSQL_PASSWORD: Secret123
     volumes:
-      - ./sql-data:/var/lib/mysqlS
+      - ./sql-data:/var/lib/mysql
+    networks:
+      - spring
 
   db-msvcCourses:
-    container_name: msvcCourses
+    container_name: msvcCoursesDB
     image: postgres:14.3
     restart: always
     ports:
@@ -26,3 +28,40 @@ services:
       POSTGRES_PASSWORD: Secret123
     volumes:
       - ./postgres:/var/lib/postgresql/data
+    networks:
+      - spring
+
+  msvcUsers:
+    container_name: msvc-users
+    depends_on:
+      - db-msvcUsers
+    image: msvc-users
+    restart: always
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./msvc-users/.env
+    networks:
+      - spring
+
+  msvcCourses:
+    container_name: msvc-courses
+    depends_on:
+      - db-msvcCourses
+    image: msvc-courses
+    restart: always
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./msvc-courses/.env
+    networks:
+      - spring
+
+volumes:
+  sql-data:
+    name: sql-data
+  postgres:
+    name: postgres
+
+networks:
+  spring:
