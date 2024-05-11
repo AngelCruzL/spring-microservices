@@ -35,7 +35,9 @@ services:
     container_name: msvc-users
     depends_on:
       - db-msvcUsers
-    image: angelcruzl/msvc-users
+    build:
+      context: ./
+      dockerfile: ./msvc-users/Dockerfile
     restart: always
     ports:
       - "8001:8001"
@@ -49,7 +51,9 @@ services:
     depends_on:
       - db-msvcCourses
       - msvc-users
-    image: angelcruzl/msvc-courses
+    build:
+      context: ./
+      dockerfile: ./msvc-courses/Dockerfile
     restart: always
     ports:
       - "8002:8002"
