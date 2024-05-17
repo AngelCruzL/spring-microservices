@@ -35,7 +35,7 @@ services:
     container_name: msvc-users
     depends_on:
       - db-msvcUsers
-    image: angelcruzl/msvc-users
+    image: angelcruzl/msvc-users:latest
     restart: always
     ports:
       - "8001:8001"
@@ -49,7 +49,7 @@ services:
     depends_on:
       - db-msvcCourses
       - msvc-users
-    image: angelcruzl/msvc-courses
+    image: angelcruzl/msvc-courses:latest
     restart: always
     ports:
       - "8002:8002"

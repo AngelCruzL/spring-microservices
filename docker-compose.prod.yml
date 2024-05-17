@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  msvc-users:
+    container_name: msvc-users
+    image: angelcruzl/msvc-users:latest
+    restart: always
+    ports:
+      - ${secrets.MSVC_USERS_PORT}:${secrets.MSVC_USERS_PORT}
+    environment:
+      PORT: ${secrets.MSVC_USERS_PORT}
+      DB_HOST: ${secrets.MSVC_USERS_DB_HOST}
+      DB_NAME: ${secrets.MSVC_USERS_DB_NAME}
+      DB_USER: ${secrets.MSVC_USERS_DB_USER}
+      DB_PASS: ${secrets.MSVC_USERS_DB_PASS}
+      MSVC_COURSES_URL: ${secrets.MSVC_COURSES_URL}
+
+  msvc-courses:
+    container_name: msvc-courses
+    depends_on:
+      - msvc-users
+    image: angelcruzl/msvc-courses:latest
+    restart: always
+    ports:
+      - ${secrets.MSVC_COURSES_PORT}:${secrets.MSVC_COURSES_PORT}
+    environment:
+      PORT: ${secrets.MSVC_COURSES_PORT}
+      DB_HOST: ${secrets.MSVC_COURSES_DB_HOST}
+      DB_NAME: ${secrets.MSVC_COURSES_DB_NAME}
+      DB_USER: ${secrets.MSVC_COURSES_DB_USER}
+      DB_PASS: ${secrets.MSVC_COURSES_DB_PASS}
+      MSVC_USERS_URL: ${secrets.MSVC_USERS_URL}
