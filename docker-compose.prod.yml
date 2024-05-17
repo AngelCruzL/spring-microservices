@@ -6,7 +6,7 @@ services:
     image: angelcruzl/msvc-users:latest
     restart: always
     ports:
-      - ${secrets.MSVC_USERS_PORT}:${secrets.MSVC_USERS_PORT}
+      - "${secrets.MSVC_USERS_PORT}:${secrets.MSVC_USERS_PORT}"
     environment:
       PORT: ${secrets.MSVC_USERS_PORT}
       DB_HOST: ${secrets.MSVC_USERS_DB_HOST}
@@ -22,7 +22,7 @@ services:
     image: angelcruzl/msvc-courses:latest
     restart: always
     ports:
-      - ${secrets.MSVC_COURSES_PORT}:${secrets.MSVC_COURSES_PORT}
+      - "${secrets.MSVC_COURSES_PORT}:${secrets.MSVC_COURSES_PORT}"
     environment:
       PORT: ${secrets.MSVC_COURSES_PORT}
       DB_HOST: ${secrets.MSVC_COURSES_DB_HOST}
