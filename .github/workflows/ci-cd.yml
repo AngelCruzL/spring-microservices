@@ -27,12 +27,14 @@ jobs:
 
       - name: Prepare docker-compose file
         run: |
+          sed -i 's|\${secrets.MSVC_USERS_PORT}|'"${{ secrets.MSVC_USERS_PORT }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_USERS_DB_HOST}|'"${{ secrets.MSVC_USERS_DB_HOST }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_USERS_DB_NAME}|'"${{ secrets.MSVC_USERS_DB_NAME }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_USERS_DB_USER}|'"${{ secrets.MSVC_USERS_DB_USER }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_USERS_DB_PASS}|'"${{ secrets.MSVC_USERS_DB_PASS }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_COURSES_URL}|'"${{ secrets.MSVC_COURSES_URL }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_COURSES_DB_HOST}|'"${{ secrets.MSVC_COURSES_DB_HOST }}"'|g' docker-compose.prod.yml
+          sed -i 's|\${secrets.MSVC_COURSES_PORT}|'"${{ secrets.MSVC_COURSES_PORT }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_COURSES_DB_NAME}|'"${{ secrets.MSVC_COURSES_DB_NAME }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_COURSES_DB_USER}|'"${{ secrets.MSVC_COURSES_DB_USER }}"'|g' docker-compose.prod.yml
           sed -i 's|\${secrets.MSVC_COURSES_DB_PASS}|'"${{ secrets.MSVC_COURSES_DB_PASS }}"'|g' docker-compose.prod.yml
