@@ -8,7 +8,7 @@ services:
     ports:
       - "8001:8001"
     environment:
-      PORT: ${secrets.MSVC_USERS_PORT}
+      PORT: "8001"
       DB_HOST: ${secrets.MSVC_USERS_DB_HOST}
       DB_NAME: ${secrets.MSVC_USERS_DB_NAME}
       DB_USER: ${secrets.MSVC_USERS_DB_USER}
@@ -24,7 +24,7 @@ services:
     ports:
       - "8002:8002"
     environment:
-      PORT: ${secrets.MSVC_COURSES_PORT}
+      PORT: "8002"
       DB_HOST: ${secrets.MSVC_COURSES_DB_HOST}
       DB_NAME: ${secrets.MSVC_COURSES_DB_NAME}
       DB_USER: ${secrets.MSVC_COURSES_DB_USER}
