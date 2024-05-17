@@ -23,7 +23,7 @@ jobs:
         run: echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin docker.io
 
       - name: Push Docker images
-        run: docker-compose push
+        run: docker-compose -f docker-compose.dev.yml push
 
       - name: Prepare docker-compose file
         run: |
