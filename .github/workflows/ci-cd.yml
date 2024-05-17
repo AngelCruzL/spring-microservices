@@ -54,5 +54,5 @@ jobs:
           username: ${{ secrets.VPS_USERNAME }}
           key: ${{ secrets.VPS_SSH_KEY }}
           script: |
-            sudo docker-compose -f ${{ secrets.VPS_PATH }}/docker-compose.prod.yml down
-            sudo docker-compose -f ${{ secrets.VPS_PATH }}/docker-compose.prod.yml up -d
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose -f ${{ secrets.VPS_PATH }}/docker-compose.prod.yml down
+            echo ${{ secrets.SUDO_PASSWORD }} | sudo -S docker-compose -f ${{ secrets.VPS_PATH }}/docker-compose.prod.yml up -d
