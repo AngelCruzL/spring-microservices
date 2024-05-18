@@ -1,6 +1,6 @@
 ARG MSVC_NAME=msvc-courses
 
-FROM arm64v8/openjdk:17-jdk-slim AS builder
+FROM openjdk:17-jdk-slim AS builder
 ARG MSVC_NAME
 LABEL authors="Ángel Cruz"
 
@@ -17,7 +17,7 @@ COPY ./${MSVC_NAME}/src ./src
 
 RUN ./mvnw clean package -DskipTests
 
-FROM arm64v8/openjdk:17-jdk-slim
+FROM openjdk:17-jdk-slim
 ARG MSVC_NAME
 
 WORKDIR /app
