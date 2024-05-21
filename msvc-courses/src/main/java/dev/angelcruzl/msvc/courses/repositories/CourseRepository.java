@@ -10,4 +10,5 @@ public interface CourseRepository extends CrudRepository<Course, Long> {
     @Modifying
     @Query("DELETE FROM CourseUser cu WHERE cu.userId = :userId")
     void deleteCourseUserByUserId(Long userId);
+    
 }

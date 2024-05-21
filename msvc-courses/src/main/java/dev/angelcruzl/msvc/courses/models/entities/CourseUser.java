@@ -3,7 +3,7 @@ package dev.angelcruzl.msvc.courses.models.entities;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "courses_users", schema = "courses")
+@Table(name = "courses_users")
 public class CourseUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
