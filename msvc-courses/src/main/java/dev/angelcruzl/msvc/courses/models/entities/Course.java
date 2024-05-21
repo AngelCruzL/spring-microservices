@@ -1,15 +1,21 @@
 package dev.angelcruzl.msvc.courses.models.entities;
 
-import dev.angelcruzl.msvc.courses.models.User;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotEmpty;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "courses", schema = "courses")
 public class Course {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,53 +25,23 @@ public class Course {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "course_id")
-    private List<CourseUser> courseUsers;
+    @Builder.Default
+    private List<CourseUser> courseUsers = new ArrayList<>();
 
     @Transient
-    private List<dev.angelcruzl.msvc.courses.models.User> users;
-
-    public Course() {
-        courseUsers = new ArrayList<>();
-        users = new ArrayList<>();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<CourseUser> getCourseUsers() {
-        return courseUsers;
-    }
-
-    public void setCourseUsers(List<CourseUser> courseUsers) {
-        this.courseUsers = courseUsers;
-    }
+    @Builder.Default
+    private List<dev.angelcruzl.msvc.courses.models.User> users = new ArrayList<>();
 
     public void addCourseUser(CourseUser courseUser) {
-        courseUsers.add(courseUser);
+        if (this.courseUsers == null) this.courseUsers = new ArrayList<>();
+
+        this.courseUsers.add(courseUser);
     }
 
     public void removeCourseUser(CourseUser courseUser) {
-        courseUsers.remove(courseUser);
+        if (this.courseUsers == null) return;
+
+        this.courseUsers.remove(courseUser);
     }
 
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
 }
