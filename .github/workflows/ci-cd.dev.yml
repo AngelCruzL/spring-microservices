@@ -26,5 +26,5 @@ jobs:
         run: cd msvc-users
 
       - name: Run tests for msvc-users
-        run: ./mvnw test
+        run: ./mvnw test -Dspring.profiles.active=test
         working-directory: msvc-users
