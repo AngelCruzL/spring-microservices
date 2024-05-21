@@ -28,3 +28,23 @@ jobs:
       - name: Run tests for msvc-users
         run: ./mvnw test -Dspring.profiles.active=test
         working-directory: msvc-users
+
+  msvc_courses_test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'oracle'
+          java-version: '17'
+
+      - name: Change to msvc-courses directory
+        run: cd msvc-courses
+
+      - name: Run tests for msvc-courses
+        run: ./mvnw test -Dspring.profiles.active=test
+        working-directory: msvc-courses
