@@ -38,6 +38,11 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User save(User user) {
+//        Optional<User> optionalUser = repository.findByEmail(user.getEmail());
+//        if (optionalUser.isPresent()) {
+//            throw new RuntimeException("User with email " + user.getEmail() + " already exists.");
+//        }
+
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return repository.save(user);
     }
