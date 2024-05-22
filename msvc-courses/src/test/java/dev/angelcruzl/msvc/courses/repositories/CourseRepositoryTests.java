@@ -60,7 +60,7 @@ public class CourseRepositoryTests {
 
     }
 
-    @DisplayName("JUnit test for [CourseRepository] get user by course id")
+    @DisplayName("JUnit test for [CourseRepository] get course by course id")
     @Test
     public void givenCourseId_whenFindById_thenReturnCourse() {
 
