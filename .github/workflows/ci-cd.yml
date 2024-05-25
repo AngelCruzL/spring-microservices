@@ -12,6 +12,13 @@ jobs:
   msvc_users_test:
     runs-on: ubuntu-latest
 
+    services:
+      docker:
+        image: docker:19.03.12
+        options: --privileged
+        ports:
+          - 2375:2375
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -22,10 +29,14 @@ jobs:
           distribution: 'oracle'
           java-version: '17'
 
-      - name: Change to msvc-users directory
-        run: cd msvc-users
+      - name: Set up Docker
+        run: |
+          sudo service docker start
+          docker --version
 
       - name: Run tests for msvc-users
+        env:
+          DOCKER_HOST: tcp://localhost:2375
         run: ./mvnw test -Dspring.profiles.active=test
         working-directory: msvc-users
 
