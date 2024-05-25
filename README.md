@@ -11,7 +11,7 @@ Application project to manage courses registers with two microservices.
 - Microservices communication
 - MySQL database replication
 - Postgres database replication
-- Users unit tests (available in the `dev` branch)
+- Users unit & integration tests
 - Courses unit tests (available in the `dev` branch)
 
 ## Technologies
@@ -29,7 +29,8 @@ Application project to manage courses registers with two microservices.
 - Communicate java microservices with feign client
 - Use GitHub actions to dockerize spring boot apps
 - Use GitHub actions to deploy docker images and run them into a vps
-- Use the CI/CD pipeline to run the tests before building the docker images
+- Use the CI/CD pipeline to run the unit & integration tests before building the docker images
+- Add workflow to use testcontainers to run the integration tests
 - Do MySQL database replication
 - Do Postgres database replication
 
@@ -76,6 +77,5 @@ Additionally, the images for the microservices are available at:
 
 ## What's next?
 
-- Add workflow to use testcontainers to run the integration tests
 - Add a gateway service to manage the microservices communication
 - Add a service discovery service to manage the services registration
