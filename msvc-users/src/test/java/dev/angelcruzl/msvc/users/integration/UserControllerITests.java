@@ -1,6 +1,7 @@
 package dev.angelcruzl.msvc.users.integration;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import dev.angelcruzl.msvc.users.clients.CourseClientRest;
 import dev.angelcruzl.msvc.users.models.entities.User;
 import dev.angelcruzl.msvc.users.repositories.UserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -18,6 +20,7 @@ import java.util.List;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -35,6 +38,9 @@ public class UserControllerITests extends AbstractionContainerBaseTest {
 
     @Autowired
     private ObjectMapper objectMapper;
+
+    @MockBean
+    private CourseClientRest client;
 
     private User user;
 
@@ -206,6 +212,66 @@ public class UserControllerITests extends AbstractionContainerBaseTest {
         // then - verify the result or output using assert statements
         response.andExpect(status().isNotFound())
             .andDo(print());
+
+    }
+
+    @DisplayName("[Integration] DELETE /{id} - Success")
+    @Test
+    public void givenUserId_whenDeleteUser_thenStatus200() throws Exception {
+
+        // given - precondition or setup
+        User userDb = repository.save(user);
+        doNothing().when(client).deleteCourseUserByUserId(userDb.getId());
+
+        // when - action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(delete("/{id}", userDb.getId()));
+
+        // then - verify the result or output using assert statements
+        response.andExpect(status().isNoContent())
+            .andDo(print());
+
+    }
+
+    @DisplayName("[Integration] DELETE /{id} - Failure")
+    @Test
+    public void givenUserId_whenDeleteUser_thenStatus404() throws Exception {
+
+        // given - precondition or setup
+        User userDb = repository.save(user);
+        doNothing().when(client).deleteCourseUserByUserId(userDb.getId());
+
+        // when - action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(delete("/{id}", userDb.getId() + 1));
+
+        // then - verify the result or output using assert statements
+        response.andExpect(status().isNotFound())
+            .andDo(print());
+
+    }
+
+    @DisplayName("[Integration] GET /users-by-course - Success")
+    @Test
+    public void givenListOfCourseIds_whenGetUsersByCourse_thenStatus200() throws Exception {
+
+        // given - precondition or setup
+        List<User> userList = new ArrayList<>();
+        userList.add(user);
+        userList.add(User.builder()
+            .name("John Doe")
+            .email("john@doe")
+            .password("123456")
+            .build());
+        List<User> savedUsers = (List<User>) repository.saveAll(userList);
+        List<Long> ids = List.of(savedUsers.get(0).getId(), savedUsers.get(1).getId());
+
+        // when - action or the behaviour that we are going test
+        ResultActions response = mockMvc.perform(get("/users-by-course")
+            .param("ids", String.valueOf(ids.get(0)), String.valueOf(ids.get(1))));
+
+        // then - verify the result or output using assert statements
+        response.andExpect(status().isOk())
+            .andDo(print())
+            .andExpect(jsonPath("$.size()", is(savedUsers.size())));
 
     }
 
