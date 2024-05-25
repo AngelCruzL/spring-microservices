@@ -19,7 +19,7 @@ public class UserController {
     private static ResponseEntity<Map<String, String>> validateUser(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
         result.getFieldErrors().forEach(
-                err -> errors.put(err.getField(), "El campo " + err.getDefaultMessage())
+            err -> errors.put(err.getField(), "El campo " + err.getDefaultMessage())
         );
         return ResponseEntity.badRequest().body(errors);
     }
@@ -36,7 +36,7 @@ public class UserController {
         }
         if (service.existsByEmail(user.getEmail())) {
             return ResponseEntity.badRequest().body(
-                    Map.of("message", "El correo electrónico ya ha sido registrado"));
+                Map.of("message", "El correo electrónico ya ha sido registrado"));
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(user));
     }
@@ -60,10 +60,10 @@ public class UserController {
         Optional<User> optionalUser = service.findById(id);
         if (optionalUser.isPresent()) {
             User userDb = optionalUser.get();
-            if (!user.getEmail().equalsIgnoreCase(userDb.getEmail()) &&
-                    service.findByEmail(user.getEmail()).isPresent()) {
+            if (user.getEmail().equalsIgnoreCase(userDb.getEmail()) &&
+                service.findByEmail(user.getEmail()).isPresent()) {
                 return ResponseEntity.badRequest().body(
-                        Map.of("message", "El correo electrónico ya ha sido registrado"));
+                    Map.of("message", "El correo electrónico ya ha sido registrado"));
             }
             userDb.setName(user.getName());
             userDb.setEmail(user.getEmail());
