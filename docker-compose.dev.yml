@@ -1,8 +1,8 @@
 version: '3.7'
 
 services:
-  db-msvcUsers:
-    container_name: msvcUsersDB
+  db-msvc-users:
+    container_name: db-msvc-users
     image: mysql:8
     restart: always
     ports:
@@ -34,7 +34,7 @@ services:
   msvc-users:
     container_name: msvc-users
     depends_on:
-      - db-msvcUsers
+      - db-msvc-users
     build:
       context: ./
       dockerfile: ./msvc-users/Dockerfile
