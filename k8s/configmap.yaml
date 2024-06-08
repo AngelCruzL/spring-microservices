@@ -6,8 +6,8 @@ data:
   port: "8001"
   db_host: "db-msvc-users:3306"
   db_name: "msvc_users"
-  db_user: "root"
-  db_pass: "Secret123"
+  #  db_user: "root"
+  #  db_pass: "Secret123"
   msvc_courses_url: "msvc-courses:8002"
 
 ---
@@ -20,6 +20,6 @@ data:
   port: "8001"
   db_host: "db-msvc-courses:5432"
   db_name: "msvc_courses"
-  db_user: "postgres"
-  db_pass: "Secret123"
+  #  db_user: "postgres"
+  #  db_pass: "Secret123"
   msvc_users_url: "msvc-courses:8001"

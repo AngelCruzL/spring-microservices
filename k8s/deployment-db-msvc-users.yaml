@@ -25,12 +25,12 @@ spec:
                   key: db_host
             - name: MYSQL_ROOT_PASSWORD
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: msvc-users
                   key: db_pass
             - name: MYSQL_PASSWORD
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: msvc-users
                   key: db_pass
           volumeMounts:

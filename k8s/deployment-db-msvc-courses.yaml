@@ -25,12 +25,12 @@ spec:
                   key: db_host
             - name: POSTGRES_USER
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: msvc-courses
                   key: db_user
             - name: POSTGRES_PASSWORD
               valueFrom:
-                configMapKeyRef:
+                secretKeyRef:
                   name: msvc-courses
                   key: db_pass
           volumeMounts:
