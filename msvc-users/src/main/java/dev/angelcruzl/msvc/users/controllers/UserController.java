@@ -4,6 +4,8 @@ import dev.angelcruzl.msvc.users.models.entities.User;
 import dev.angelcruzl.msvc.users.services.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,8 +15,12 @@ import java.util.*;
 
 @RestController
 public class UserController {
+
     @Autowired
     private UserService service;
+
+    @Autowired
+    private ApplicationContext context;
 
     private static ResponseEntity<Map<String, String>> validateUser(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
@@ -22,6 +28,11 @@ public class UserController {
             err -> errors.put(err.getField(), "El campo " + err.getDefaultMessage())
         );
         return ResponseEntity.badRequest().body(errors);
+    }
+
+    @GetMapping("/crash")
+    public void crash() {
+        ((ConfigurableApplicationContext) context).close();
     }
 
     @GetMapping
@@ -89,4 +100,5 @@ public class UserController {
     public ResponseEntity<?> listByIds(@RequestParam List<Long> ids) {
         return ResponseEntity.ok(service.listByIds(ids));
     }
+
 }
