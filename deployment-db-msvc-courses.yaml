@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-msvc-courses
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-msvc-courses
+  template:
+    metadata:
+      labels:
+        app: db-msvc-courses
+    spec:
+      containers:
+        - image: postgres:14.3
+          name: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: msvc_courses
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: Secret123
