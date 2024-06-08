@@ -16,8 +16,8 @@ services:
     networks:
       - spring
 
-  db-msvcCourses:
-    container_name: msvcCoursesDB
+  db-msvc-courses:
+    container_name: db-msvc-courses
     image: postgres:14.3
     restart: always
     ports:
@@ -48,7 +48,7 @@ services:
   msvc-courses:
     container_name: msvc-courses
     depends_on:
-      - db-msvcCourses
+      - db-msvc-courses
       - msvc-users
     image: angelcruzl/msvc-courses:latest
     restart: always

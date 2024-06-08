@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-msvc-users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-msvc-users
+  template:
+    metadata:
+      labels:
+        app: db-msvc-users
+    spec:
+      containers:
+        - image: mysql:8
+          name: mysql
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              value: msvc_users
+            - name: MYSQL_ROOT_PASSWORD
+              value: Secret123
+            - name: MYSQL_PASSWORD
+              value: Secret123
