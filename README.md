@@ -51,6 +51,15 @@ docker-compose -f docker/docker-compose-dev.yml up
 - [http://localhost:8001/swagger-ui.html](http://localhost:8001/swagger-ui.html) for the users service.
 - [http://localhost:8002/swagger-ui.html](http://localhost:8002/swagger-ui.html) for the courses service.
 
+### Kubernetes
+
+If you want to use the k8s pods you need to change the directory with `cd k8s` and then execute the next commands:
+
+```shell
+kubectl apply -f users-data-pv.yaml -f users-data-pvc.yaml -f svc-db-msvc-users.yaml -f svc-msvc-users.yaml -f deployment-db-msvc-users.yaml -f deployment-msvc-users.yaml
+
+```
+
 ## Usage
 
 For facilitate the usage of the services, you can use the swagger UI to interact with the services. Additionally,

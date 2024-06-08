@@ -29,6 +29,5 @@ spec:
               name: courses-data
       volumes:
         - name: courses-data
-          hostPath:
-            path: /var/lib/postgresql/data
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: users-data-pvc
