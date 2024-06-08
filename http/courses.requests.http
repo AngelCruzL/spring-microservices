@@ -1,8 +1,8 @@
 ### Get courses
-{{courses}}
+GET {{courses}}
 
 ### Create course
-{{courses}}/
+POST {{courses}}/
 Content-Type: application/json
 
 {
@@ -10,7 +10,7 @@ Content-Type: application/json
 }
 
 ### Get course detail
-{{courses}}/1
+GET {{courses}}/1
 
 ### Create user into course
 POST {{courses}}/create-user/1

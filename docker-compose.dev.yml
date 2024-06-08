@@ -1,8 +1,8 @@
 version: '3.7'
 
 services:
-  db-msvcUsers:
-    container_name: msvcUsersDB
+  db-msvc-users:
+    container_name: db-msvc-users
     image: mysql:8
     restart: always
     ports:
@@ -12,7 +12,7 @@ services:
       MYSQL_ROOT_PASSWORD: Secret123
       MYSQL_PASSWORD: Secret123
     volumes:
-      - ./sql-data:/var/lib/mysql
+      - ./volumes/mysql:/var/lib/mysql
     networks:
       - spring
 
@@ -27,14 +27,15 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Secret123
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./volumes/postgres:/var/lib/postgresql/data
+      - ./init-scripts/postgres.sql:/docker-entrypoint-initdb.d/postgres.sql
     networks:
       - spring
 
   msvc-users:
     container_name: msvc-users
     depends_on:
-      - db-msvcUsers
+      - db-msvc-users
     build:
       context: ./
       dockerfile: ./msvc-users/Dockerfile
