@@ -29,6 +29,5 @@ spec:
               name: users-data
       volumes:
         - name: users-data
-          hostPath:
-            path: /var/lib/mysql
-            type: DirectoryOrCreate
+          persistentVolumeClaim:
+            claimName: users-data-pvc
