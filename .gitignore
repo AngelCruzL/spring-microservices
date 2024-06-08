@@ -38,6 +38,5 @@ build/
 .DS_Store
 
 ### Docker ###
-postgres/
-sql-data/
+volumes/
 logs

@@ -12,7 +12,7 @@ services:
       MYSQL_ROOT_PASSWORD: Secret123
       MYSQL_PASSWORD: Secret123
     volumes:
-      - ./sql-data:/var/lib/mysql
+      - ./volumes/mysql:/var/lib/mysql
     networks:
       - spring
 
@@ -27,7 +27,8 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: Secret123
     volumes:
-      - ./postgres:/var/lib/postgresql/data
+      - ./volumes/postgres:/var/lib/postgresql/data
+      - ./init-scripts/postgres.sql:/docker-entrypoint-initdb.d/postgres.sql
     networks:
       - spring
 
