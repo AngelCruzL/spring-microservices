@@ -24,3 +24,11 @@ spec:
               value: Secret123
             - name: MYSQL_PASSWORD
               value: Secret123
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: users-data
+      volumes:
+        - name: users-data
+          hostPath:
+            path: /var/lib/mysql
+            type: DirectoryOrCreate

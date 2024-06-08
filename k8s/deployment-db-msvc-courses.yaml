@@ -24,3 +24,11 @@ spec:
               value: postgres
             - name: POSTGRES_PASSWORD
               value: Secret123
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: courses-data
+      volumes:
+        - name: courses-data
+          hostPath:
+            path: /var/lib/postgresql/data
+            type: DirectoryOrCreate
