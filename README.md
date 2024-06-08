@@ -56,9 +56,25 @@ docker-compose -f docker/docker-compose-dev.yml up
 If you want to use the k8s pods you need to change the directory with `cd k8s` and then execute the next commands:
 
 ```shell
+kubectl apply -f secret.yaml -f configmap.yaml
 kubectl apply -f users-data-pv.yaml -f users-data-pvc.yaml -f svc-db-msvc-users.yaml -f svc-msvc-users.yaml -f deployment-db-msvc-users.yaml -f deployment-msvc-users.yaml
-
+kubectl apply -f courses-data-pv.yaml -f courses-data-pvc.yaml -f svc-db-msvc-courses.yaml -f svc-msvc-courses.yaml -f deployment-db-msvc-courses.yaml -f deployment-msvc-courses.yaml
 ```
+
+This will create the cluster with the services, you can check it with:
+
+```shell
+kubectl get all
+```
+
+Now we need to expose the deployment objects of our microservices, we can do it with the next command:
+
+```shell
+minikube service msvc-users --url
+minikube service msvc-courses --url
+```
+
+This will return the local random port linked to our services.
 
 ## Usage
 
