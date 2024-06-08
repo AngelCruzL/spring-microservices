@@ -36,15 +36,12 @@ services:
     container_name: msvc-users
     depends_on:
       - db-msvc-users
-    build:
-      context: ./
-      dockerfile: ./msvc-users/Dockerfile
-    image: angelcruzl/msvc-users
+    image: angelcruzl/msvc-users:latest
     restart: always
     ports:
       - "8001:8001"
     env_file:
-      - ./msvc-users/.env
+      - ../msvc-users/.env
     networks:
       - spring
 
@@ -53,15 +50,12 @@ services:
     depends_on:
       - db-msvc-courses
       - msvc-users
-    build:
-      context: ./
-      dockerfile: ./msvc-courses/Dockerfile
-    image: angelcruzl/msvc-courses
+    image: angelcruzl/msvc-courses:latest
     restart: always
     ports:
       - "8002:8002"
     env_file:
-      - ./msvc-courses/.env
+      - ../msvc-courses/.env
     networks:
       - spring
 

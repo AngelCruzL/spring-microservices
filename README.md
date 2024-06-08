@@ -17,6 +17,7 @@ Application project to manage courses registers with two microservices.
 - MySQL 8
 - Postgres 16
 - Docker
+- Kubernetes
 - GitHub Actions
 - Swagger 2
 
@@ -36,14 +37,13 @@ Application project to manage courses registers with two microservices.
 git clone https://github.com/AngelCruzL/spring-microservices
 ```
 
-2. Run `docker-compose up` to start the services (this command will start the MySQL and Postgres databases and
-   download the latest images of the microservices, then it will start them with the variables defined in the `.env`
-   file
-   at each microservice). Alternatively, you can run the services in development mode using the microservices source
-   code:
+2. Run `docker-compose -f docker/docker-compose up` to start the services (this command will start the MySQL and
+   Postgres databases and download the latest images of the microservices, then it will start them with the variables
+   defined in the `.env` file at each microservice). Alternatively, you can run the services in development mode using
+   the microservices source code:
 
 ```shell
-docker-compose -f docker-compose-dev.yml up
+docker-compose -f docker/docker-compose-dev.yml up
 ```
 
 3. Access the services at:
@@ -71,7 +71,6 @@ Additionally, the images for the microservices are available at:
 
 ## What's next?
 
-- Add tests to the services (unit and integration)
-- Update the CI/CD pipeline to run the tests before building the docker images
+- Add GitHub action to make the deploy with kubernetes instead of docker
 - Add a gateway service to manage the microservices communication
 - Add a service discovery service to manage the services registration
