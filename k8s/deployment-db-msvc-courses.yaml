@@ -22,7 +22,7 @@ spec:
               valueFrom:
                 configMapKeyRef:
                   name: msvc-courses
-                  key: db_host
+                  key: db_name
             - name: POSTGRES_USER
               valueFrom:
                 secretKeyRef:
@@ -36,7 +36,12 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: courses-data
+            - mountPath: /docker-entrypoint-initdb.d
+              name: initdb
       volumes:
         - name: courses-data
           persistentVolumeClaim:
-            claimName: users-data-pvc
+            claimName: courses-data-pvc
+        - name: initdb
+          configMap:
+            name: postgres-initdb
