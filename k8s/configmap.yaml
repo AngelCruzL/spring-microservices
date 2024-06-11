@@ -8,7 +8,25 @@ data:
   db_name: "msvc_users"
   #  db_user: "root"
   #  db_pass: "Secret123"
+  profile: "prod"
   msvc_courses_url: "msvc-courses:8002"
+  application.yaml: |-
+    config:
+      text: Setting up default environment
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: dev
+    config:
+      text: Setting up dev environment
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: prod
+    config:
+      text: Setting up prod environment
 
 ---
 

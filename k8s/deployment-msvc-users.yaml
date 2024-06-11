@@ -18,6 +18,19 @@ spec:
           ports:
             - containerPort: 8001
           env:
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: profile
             - name: PORT
               valueFrom:
                 configMapKeyRef:
