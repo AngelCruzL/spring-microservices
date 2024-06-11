@@ -12,6 +12,7 @@
     <modules>
         <module>msvc-users</module>
         <module>msvc-courses</module>
+        <module>msvc-gateway</module>
     </modules>
 
     <parent>
