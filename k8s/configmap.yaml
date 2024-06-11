@@ -10,7 +10,7 @@ data:
   #  db_pass: "Secret123"
   profile: "prod"
   msvc_courses_url: "msvc-courses:8002"
-  application.yaml: |-
+  msvc-users.yaml: |-
     config:
       text: Setting up default environment
     ---
