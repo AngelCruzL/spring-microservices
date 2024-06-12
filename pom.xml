@@ -13,6 +13,7 @@
         <module>msvc-users</module>
         <module>msvc-courses</module>
         <module>msvc-gateway</module>
+        <module>msvc-auth</module>
     </modules>
 
     <parent>
