@@ -18,6 +18,16 @@ spec:
           ports:
             - containerPort: 8001
           env:
+            - name: LB_AUTH_ISSUER_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: lb_auth_issuer_uri
+            - name: LB_USERS_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: lb_users_uri
             - name: MY_POD_NAME
               valueFrom:
                 fieldRef:
