@@ -12,10 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class UserController {
@@ -111,6 +108,11 @@ public class UserController {
     @GetMapping("/users-by-course")
     public ResponseEntity<?> listByIds(@RequestParam List<Long> ids) {
         return ResponseEntity.ok(service.listByIds(ids));
+    }
+
+    @GetMapping("/authorized")
+    public Map<String, Object> authorized(@RequestParam(name = "code") String code) {
+        return Collections.singletonMap("code", code);
     }
 
 }
