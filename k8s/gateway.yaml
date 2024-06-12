@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: msvc-gateway
-          image: angelcruzl/msvc-gateway
+          image: angelcruzl/msvc-gateway:latest
           ports:
             - containerPort: 8090
 
