@@ -56,7 +56,8 @@ docker-compose -f docker/docker-compose-dev.yml up
 If you want to use the k8s pods you need to change the directory with `cd k8s` and then execute the next commands:
 
 ```shell
-kubectl apply -f secret.yaml -f configmap.yaml
+kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
+kubectl apply -f secret.yaml -f configmap.yaml -f auth.yaml -f gateway.yaml
 kubectl apply -f users-data-pv.yaml -f users-data-pvc.yaml -f svc-db-msvc-users.yaml -f svc-msvc-users.yaml -f deployment-db-msvc-users.yaml -f deployment-msvc-users.yaml
 kubectl apply -f courses-data-pv.yaml -f courses-data-pvc.yaml -f svc-db-msvc-courses.yaml -f svc-msvc-courses.yaml -f deployment-db-msvc-courses.yaml -f deployment-msvc-courses.yaml
 ```
