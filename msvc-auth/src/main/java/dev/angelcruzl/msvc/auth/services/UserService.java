@@ -19,13 +19,13 @@ public class UserService implements UserDetailsService {
 
     private final Logger logger = LoggerFactory.getLogger(UserService.class);
     @Autowired
-    private WebClient client;
+    private WebClient.Builder client;
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         try {
-            User user = client.get()
-                .uri("http://msvc-users:8001/login", uri -> uri.queryParam("email", email).build())
+            User user = client.build().get()
+                .uri("http://msvc-users/login", uri -> uri.queryParam("email", email).build())
                 .accept(MediaType.APPLICATION_JSON)
                 .retrieve()
                 .bodyToMono(User.class)
