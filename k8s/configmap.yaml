@@ -1,0 +1,55 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: msvc-users
+data:
+  lb_auth_issuer_uri: "http://192.168.105.4:32269"
+  lb_users_uri: "http://192.168.105.4:32041"
+  port: "8001"
+  db_host: "db-msvc-users:3306"
+  db_name: "msvc_users"
+  #  db_user: "root"
+  #  db_pass: "Secret123"
+  profile: "prod"
+  msvc_courses_url: "msvc-courses:8002"
+  msvc-users.yaml: |-
+    config:
+      text: Setting up default environment
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: dev
+    config:
+      text: Setting up dev environment
+    ---
+    spring:
+      config:
+        activate:
+          on-profile: prod
+    config:
+      text: Setting up prod environment
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: msvc-courses
+data:
+  port: "8002"
+  db_host: "db-msvc-courses:5432"
+  db_name: "msvc_courses"
+  #  db_user: "postgres"
+  #  db_pass: "Secret123"
+  msvc_users_url: "msvc-courses:8001"
+
+---
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-initdb
+data:
+  init-db.sql: |
+    CREATE SCHEMA IF NOT EXISTS courses;

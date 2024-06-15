@@ -1,8 +1,21 @@
 ### Get users
 GET {{users}}
+Authorization: Bearer {{token}}
 
 ### Create user
 POST {{users}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Ángel Cruz",
+  "email": "me@angelcruzl.dev",
+  "password": "123456"
+}
+
+### Create random user
+POST {{users}}
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -13,9 +26,12 @@ Content-Type: application/json
 
 ### Get user by id
 GET {{users}}/1
+Authorization: Bearer {{token}}
 
 ### Get users by course
-GET {{users}}users-by-course?ids=1,3
+GET {{users}}/users-by-course?ids=1,3
+Authorization: Bearer {{token}}
 
 ### Delete user (and unasign from courses)
 DELETE {{users}}/2
+Authorization: Bearer {{token}}

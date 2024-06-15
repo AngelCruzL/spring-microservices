@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msvc-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      role: msvc-auth
+  template:
+    metadata:
+      labels:
+        role: msvc-auth
+    spec:
+      containers:
+        - name: msvc-auth
+          image: angelcruzl/msvc-auth:latest
+          ports:
+            - containerPort: 9000
+          env:
+            - name: LB_USERS_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: lb_users_uri
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: msvc-auth
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 9000
+      targetPort: 9000
+      protocol: TCP
+  selector:
+    role: msvc-auth

@@ -25,7 +25,7 @@ public class CourseController {
     private static ResponseEntity<Map<String, String>> validateCourse(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
         result.getFieldErrors().forEach(
-                err -> errors.put(err.getField(), "El campo " + err.getDefaultMessage())
+            err -> errors.put(err.getField(), "El campo " + err.getDefaultMessage())
         );
         return ResponseEntity.badRequest().body(errors);
     }
@@ -36,8 +36,9 @@ public class CourseController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable Long id) {
-        Optional<Course> course = service.findByIdWithUsers(id);
+    public ResponseEntity<?> findById(@PathVariable Long id,
+                                      @RequestHeader(value = "Authorization", required = true) String token) {
+        Optional<Course> course = service.findByIdWithUsers(id, token);
         if (course.isPresent()) {
             return ResponseEntity.ok(course.get());
         }
@@ -82,14 +83,15 @@ public class CourseController {
     }
 
     @PostMapping("/create-user/{courseId}")
-    public ResponseEntity<?> createUser(@PathVariable Long courseId, @RequestBody User user) {
+    public ResponseEntity<?> createUser(@PathVariable Long courseId, @RequestBody User user,
+                                        @RequestHeader(value = "Authorization", required = true) String token) {
         Optional<User> optionalUser = null;
         try {
-            optionalUser = service.createUser(courseId, user);
+            optionalUser = service.createUser(courseId, user, token);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("message", "No se pudo crear el usuario,"
-                            + " error: " + e.getMessage()));
+                .body(Collections.singletonMap("message", "No se pudo crear el usuario,"
+                    + " error: " + e.getMessage()));
         }
         if (optionalUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(optionalUser.get());
@@ -99,14 +101,15 @@ public class CourseController {
     }
 
     @PutMapping("/assign-user/{courseId}")
-    public ResponseEntity<?> assignUser(@PathVariable Long courseId, @RequestBody User user) {
+    public ResponseEntity<?> assignUser(@PathVariable Long courseId, @RequestBody User user,
+                                        @RequestHeader(value = "Authorization", required = true) String token) {
         Optional<User> optionalUser = null;
         try {
-            optionalUser = service.assignUser(courseId, user);
+            optionalUser = service.assignUser(courseId, user, token);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("message", "No existe el usuario con el id "
-                            + user.getId() + ", error: " + e.getMessage()));
+                .body(Collections.singletonMap("message", "No existe el usuario con el id "
+                    + user.getId() + ", error: " + e.getMessage()));
         }
         if (optionalUser.isPresent()) {
             return ResponseEntity.status(HttpStatus.CREATED).body(optionalUser.get());
@@ -116,14 +119,15 @@ public class CourseController {
     }
 
     @DeleteMapping("/unassign-user/{courseId}")
-    public ResponseEntity<?> unassignUser(@PathVariable Long courseId, @RequestBody User user) {
+    public ResponseEntity<?> unassignUser(@PathVariable Long courseId, @RequestBody User user,
+                                          @RequestHeader(value = "Authorization", required = true) String token) {
         Optional<User> optionalUser = null;
         try {
-            optionalUser = service.unassignUser(courseId, user);
+            optionalUser = service.unassignUser(courseId, user, token);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body(Collections.singletonMap("message", "No existe el usuario con el id "
-                            + user.getId() + ", error: " + e.getMessage()));
+                .body(Collections.singletonMap("message", "No existe el usuario con el id "
+                    + user.getId() + ", error: " + e.getMessage()));
         }
         if (optionalUser.isPresent()) {
             return ResponseEntity.ok(optionalUser.get());

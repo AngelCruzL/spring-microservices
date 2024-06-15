@@ -1,0 +1,96 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: msvc-users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: msvc-users
+  template:
+    metadata:
+      labels:
+        app: msvc-users
+    spec:
+      containers:
+        - image: angelcruzl/msvc-users:latest
+          name: msvc-users
+          ports:
+            - containerPort: 8001
+          env:
+            - name: LB_AUTH_ISSUER_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: lb_auth_issuer_uri
+            - name: LB_USERS_URI
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: lb_users_uri
+            - name: MY_POD_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
+            - name: MY_POD_IP
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
+            - name: PROFILE
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: profile
+            - name: PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: port
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: db_host
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: db_name
+            - name: DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-users
+                  key: db_user
+            - name: DB_PASS
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-users
+                  key: db_pass
+            - name: MSVC_COURSES_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: msvc_courses_url
+#          readinessProbe:
+#            httpGet:
+#              port: 8001
+#              scheme: HTTP
+#              path: /actuator/health/readiness
+#            initialDelaySeconds: 5
+#            periodSeconds: 20
+#            timeoutSeconds: 10
+#          livenessProbe:
+#            httpGet:
+#              port: 8001
+#              scheme: HTTP
+#              path: /actuator/health/liveness
+#            initialDelaySeconds: 10
+#            periodSeconds: 30
+#            timeoutSeconds: 10
+#          resources:
+#            requests:
+#              memory: "512Mi"
+#              cpu: "400m"
+#            limits:
+#              memory: "800Mi"
+#              cpu: "500m"

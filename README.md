@@ -12,7 +12,9 @@ Application project to manage courses registers with two microservices.
 - MySQL database replication
 - Postgres database replication
 - Users unit & integration tests
-- Courses unit tests (available in the `dev` branch)
+- Courses unit tests
+- Gateway service
+- Security with JWT
 
 ## Technologies
 
@@ -21,6 +23,7 @@ Application project to manage courses registers with two microservices.
 - MySQL 8
 - Postgres 16
 - Docker
+- Kubernetes
 - GitHub Actions
 - Swagger 2
 
@@ -33,6 +36,9 @@ Application project to manage courses registers with two microservices.
 - Add workflow to use testcontainers to run the integration tests
 - Do MySQL database replication
 - Do Postgres database replication
+- Use a gateway service to manage the microservices communication
+- Use minikube to deploy the microservices in a local cluster
+- Use Kubernetes to deploy the microservices
 
 ## Setup
 
@@ -42,20 +48,61 @@ Application project to manage courses registers with two microservices.
 git clone https://github.com/AngelCruzL/spring-microservices
 ```
 
-2. Run `docker-compose up` to start the services (this command will start the MySQL and Postgres databases and
-   download the latest images of the microservices, then it will start them with the variables defined in the `.env`
-   file
-   at each microservice). Alternatively, you can run the services in development mode using the microservices source
-   code:
+2. Run `docker-compose -f docker/docker-compose up` to start the services (this command will start the MySQL and
+   Postgres databases and download the latest images of the microservices, then it will start them with the variables
+   defined in the `.env` file at each microservice). Alternatively, you can run the services in development mode using
+   the microservices source code:
 
 ```shell
-docker-compose -f docker-compose-dev.yml up
+docker-compose -f docker/docker-compose-dev.yml up
 ```
 
 3. Access the services at:
 
 - [http://localhost:8001/swagger-ui.html](http://localhost:8001/swagger-ui.html) for the users service.
 - [http://localhost:8002/swagger-ui.html](http://localhost:8002/swagger-ui.html) for the courses service.
+
+### Kubernetes
+
+For local development purposes you can use minikube to deploy the services. First, you need to start
+the [minikube](https://minikube.sigs.k8s.io/docs/start/) cluster with the next command:
+
+```shell
+minikube start
+```
+
+Note: If you are using macOS with Mx architecture, you need to install the `qemu` driver with `brew install qemu`.
+You can find more information about the driver [here](https://minikube.sigs.k8s.io/docs/drivers/qemu/).
+
+This [article](https://devopscube.com/minikube-mac/) can help you to configure the driver with minikube.
+
+```shell
+minikube start --driver qemu --network socket_vmnet
+```
+
+If you want to use the k8s pods you need to change the directory with `cd k8s` and then execute the next commands:
+
+```shell
+kubectl create clusterrolebinding admin --clusterrole=cluster-admin --serviceaccount=default:default
+kubectl apply -f secret.yaml -f configmap.yaml -f auth.yaml -f gateway.yaml
+kubectl apply -f users-data-pv.yaml -f users-data-pvc.yaml -f svc-db-msvc-users.yaml -f svc-msvc-users.yaml -f deployment-db-msvc-users.yaml -f deployment-msvc-users.yaml
+kubectl apply -f courses-data-pv.yaml -f courses-data-pvc.yaml -f svc-db-msvc-courses.yaml -f svc-msvc-courses.yaml -f deployment-db-msvc-courses.yaml -f deployment-msvc-courses.yaml
+```
+
+This will create the cluster with the services, you can check it with:
+
+```shell
+kubectl get all
+```
+
+Now we need to expose the deployment objects of our microservices, we can do it with the next command:
+
+```shell
+minikube service msvc-users --url
+minikube service msvc-courses --url
+```
+
+This will return the local random port linked to our services.
 
 ## Usage
 
@@ -77,5 +124,5 @@ Additionally, the images for the microservices are available at:
 
 ## What's next?
 
-- Add a gateway service to manage the microservices communication
-- Add a service discovery service to manage the services registration
+- Add GitHub action to make the deploy with kubernetes instead of docker
+- Fix the controllers & integration tests

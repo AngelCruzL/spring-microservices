@@ -11,7 +11,7 @@ public interface CourseService {
 
     Optional<Course> findById(Long id);
 
-    Optional<Course> findByIdWithUsers(Long id);
+    Optional<Course> findByIdWithUsers(Long id, String token);
 
     Course save(Course course);
 
@@ -19,9 +19,9 @@ public interface CourseService {
 
     void deleteCourseUserByUserId(Long userId);
 
-    Optional<User> createUser(Long courseId, User user);
+    Optional<User> createUser(Long courseId, User user, String taken);
 
-    Optional<User> assignUser(Long courseId, User user);
+    Optional<User> assignUser(Long courseId, User user, String taken);
 
-    Optional<User> unassignUser(Long courseId, User user);
+    Optional<User> unassignUser(Long courseId, User user, String taken);
 }

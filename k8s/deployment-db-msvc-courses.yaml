@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-msvc-courses
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-msvc-courses
+  template:
+    metadata:
+      labels:
+        app: db-msvc-courses
+    spec:
+      containers:
+        - image: postgres:14.3
+          name: postgres
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-courses
+                  key: db_name
+            - name: POSTGRES_USER
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-courses
+                  key: db_user
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-courses
+                  key: db_pass
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: courses-data
+            - mountPath: /docker-entrypoint-initdb.d
+              name: initdb
+      volumes:
+        - name: courses-data
+          persistentVolumeClaim:
+            claimName: courses-data-pvc
+        - name: initdb
+          configMap:
+            name: postgres-initdb

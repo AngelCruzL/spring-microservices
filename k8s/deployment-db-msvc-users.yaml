@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: db-msvc-users
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db-msvc-users
+  template:
+    metadata:
+      labels:
+        app: db-msvc-users
+    spec:
+      containers:
+        - image: mysql:8
+          name: mysql
+          ports:
+            - containerPort: 3306
+          env:
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: msvc-users
+                  key: db_name
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-users
+                  key: db_pass
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: msvc-users
+                  key: db_pass
+          volumeMounts:
+            - mountPath: /var/lib/mysql
+              name: users-data
+      volumes:
+        - name: users-data
+          persistentVolumeClaim:
+            claimName: users-data-pvc

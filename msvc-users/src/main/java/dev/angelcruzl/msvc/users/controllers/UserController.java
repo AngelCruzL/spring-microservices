@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,6 +23,9 @@ public class UserController {
     @Autowired
     private ApplicationContext context;
 
+    @Autowired
+    private Environment env;
+
     private static ResponseEntity<Map<String, String>> validateUser(BindingResult result) {
         Map<String, String> errors = new HashMap<>();
         result.getFieldErrors().forEach(
@@ -36,8 +40,13 @@ public class UserController {
     }
 
     @GetMapping
-    public Map<String, List<User>> findAll() {
-        return Collections.singletonMap("users", service.findAll());
+    public ResponseEntity<?> findAll() {
+        Map<String, Object> body = new HashMap<>();
+        body.put("users", service.findAll());
+        body.put("pod_info", env.getProperty("MY_POD_NAME") + ": " + env.getProperty("MY_POD_IP"));
+        body.put("text", env.getProperty("config.text"));
+
+        return ResponseEntity.ok(body);
     }
 
     @PostMapping
@@ -99,6 +108,21 @@ public class UserController {
     @GetMapping("/users-by-course")
     public ResponseEntity<?> listByIds(@RequestParam List<Long> ids) {
         return ResponseEntity.ok(service.listByIds(ids));
+    }
+
+    @GetMapping("/authorized")
+    public Map<String, Object> authorized(@RequestParam(name = "code") String code) {
+        return Collections.singletonMap("code", code);
+    }
+
+    @GetMapping("/login")
+    public ResponseEntity<?> loginByEmail(@RequestParam String email) {
+        Optional<User> optionalUser = service.findByEmail(email);
+        if (optionalUser.isPresent()) {
+            return ResponseEntity.ok(optionalUser.get());
+        }
+
+        return ResponseEntity.notFound().build();
     }
 
 }
