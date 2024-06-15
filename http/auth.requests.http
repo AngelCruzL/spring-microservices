@@ -1,0 +1,26 @@
+### Login Ángel Cruz User
+POST {{auth}}/login
+Content-Type: application/x-www-form-urlencoded
+
+username = me@angelcruzl.dev &
+password = 123456
+
+> {%
+    client.global.set("code", response.body.code);
+%}
+
+### Lagin Ángel Cruz User with read & write scopes
+GET {{auth}}/oauth2/authorize?response_type=code&client_id=users-client&scope=read%20write&
+    redirect_uri={{users}}/authorized
+
+> {%
+    client.global.set("code", response.body.code);
+%}
+
+### Get user token
+POST {{auth}}/oauth2/token
+Content-Type: application/x-www-form-urlencoded
+
+code = {{code}} &
+grant_type = authorization_code &
+redirect_uri = {{users}}/authorized

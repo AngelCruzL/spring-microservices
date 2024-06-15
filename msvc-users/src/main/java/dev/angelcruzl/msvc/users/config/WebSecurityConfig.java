@@ -32,8 +32,8 @@ public class WebSecurityConfig {
             .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and()
-            .oauth2Login(oauth2Login -> oauth2Login.loginPage("/oauth2/authorization/msvc-users-client"))
-            .oauth2Client(withDefaults())
+            .oauth2Login(login -> login.loginPage("/oauth2/authorization/msvc-users-client")).csrf().disable()
+            .oauth2Client(withDefaults()).csrf().disable()
             .oauth2ResourceServer().jwt();
 
         return http.build();
