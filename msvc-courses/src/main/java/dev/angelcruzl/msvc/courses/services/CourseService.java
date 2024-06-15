@@ -11,7 +11,7 @@ public interface CourseService {
 
     Optional<Course> findById(Long id);
 
-    Optional<Course> findByIdWithUsers(Long id);
+    Optional<Course> findByIdWithUsers(Long id, String token);
 
     Course save(Course course);
 
