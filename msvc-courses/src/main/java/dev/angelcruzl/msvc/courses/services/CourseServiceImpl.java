@@ -72,10 +72,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Optional<User> createUser(Long courseId, User user) {
+    public Optional<User> createUser(Long courseId, User user, String token) {
         Optional<Course> optionalCourse = repository.findById(courseId);
         if (optionalCourse.isPresent()) {
-            User newUser = client.create(user);
+            User newUser = client.create(user, token);
 
             Course course = optionalCourse.get();
             CourseUser courseUser = new CourseUser();
@@ -92,10 +92,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Optional<User> assignUser(Long courseId, User user) {
+    public Optional<User> assignUser(Long courseId, User user, String token) {
         Optional<Course> optionalCourse = repository.findById(courseId);
         if (optionalCourse.isPresent()) {
-            User userMsvc = client.findById(user.getId());
+            User userMsvc = client.findById(user.getId(), token);
 
             Course course = optionalCourse.get();
             CourseUser courseUser = new CourseUser();
@@ -112,10 +112,10 @@ public class CourseServiceImpl implements CourseService {
 
     @Override
     @Transactional
-    public Optional<User> unassignUser(Long courseId, User user) {
+    public Optional<User> unassignUser(Long courseId, User user, String token) {
         Optional<Course> optionalCourse = repository.findById(courseId);
         if (optionalCourse.isPresent()) {
-            User userMsvc = client.findById(user.getId());
+            User userMsvc = client.findById(user.getId(), token);
 
             Course course = optionalCourse.get();
             CourseUser courseUser = new CourseUser();

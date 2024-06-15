@@ -83,10 +83,11 @@ public class CourseController {
     }
 
     @PostMapping("/create-user/{courseId}")
-    public ResponseEntity<?> createUser(@PathVariable Long courseId, @RequestBody User user) {
+    public ResponseEntity<?> createUser(@PathVariable Long courseId, @RequestBody User user,
+                                        @RequestHeader(value = "Authorization", required = true) String token) {
         Optional<User> optionalUser = null;
         try {
-            optionalUser = service.createUser(courseId, user);
+            optionalUser = service.createUser(courseId, user, token);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap("message", "No se pudo crear el usuario,"
@@ -100,10 +101,11 @@ public class CourseController {
     }
 
     @PutMapping("/assign-user/{courseId}")
-    public ResponseEntity<?> assignUser(@PathVariable Long courseId, @RequestBody User user) {
+    public ResponseEntity<?> assignUser(@PathVariable Long courseId, @RequestBody User user,
+                                        @RequestHeader(value = "Authorization", required = true) String token) {
         Optional<User> optionalUser = null;
         try {
-            optionalUser = service.assignUser(courseId, user);
+            optionalUser = service.assignUser(courseId, user, token);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap("message", "No existe el usuario con el id "
@@ -117,10 +119,11 @@ public class CourseController {
     }
 
     @DeleteMapping("/unassign-user/{courseId}")
-    public ResponseEntity<?> unassignUser(@PathVariable Long courseId, @RequestBody User user) {
+    public ResponseEntity<?> unassignUser(@PathVariable Long courseId, @RequestBody User user,
+                                          @RequestHeader(value = "Authorization", required = true) String token) {
         Optional<User> optionalUser = null;
         try {
-            optionalUser = service.unassignUser(courseId, user);
+            optionalUser = service.unassignUser(courseId, user, token);
         } catch (FeignException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND)
                 .body(Collections.singletonMap("message", "No existe el usuario con el id "

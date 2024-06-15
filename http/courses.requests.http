@@ -11,9 +11,11 @@ Content-Type: application/json
 
 ### Get course detail
 GET {{courses}}/1
+Authorization: Bearer {{token}}
 
 ### Create user into course
 POST {{courses}}/create-user/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -24,6 +26,7 @@ Content-Type: application/json
 
 ### Assign user into course
 PUT {{courses}}/assign-user/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -35,6 +38,7 @@ Content-Type: application/json
 
 ### Unassign user into course
 DELETE {{courses}}/unassign-user/1
+Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
