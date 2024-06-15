@@ -9,6 +9,9 @@ Application project to manage courses registers with two microservices.
 - Relation between courses and users
 - Password hashing
 - Microservices communication
+- Gateway service
+- Database replication
+- Security with JWT
 
 ## Technologies
 
@@ -28,6 +31,9 @@ Application project to manage courses registers with two microservices.
 - Use GitHub actions to deploy docker images and run them into a vps
 - Do MySQL database replication
 - Do Postgres database replication
+- Use a gateway service to manage the microservices communication
+- Use minikube to deploy the microservices in a local cluster
+- Use Kubernetes to deploy the microservices
 
 ## Setup
 
@@ -53,8 +59,17 @@ docker-compose -f docker/docker-compose-dev.yml up
 
 ### Kubernetes
 
-For local development purposes you can use minikube to deploy the services. First, you need to start the minikube
-cluster with the next command:
+For local development purposes you can use minikube to deploy the services. First, you need to start
+the [minikube](https://minikube.sigs.k8s.io/docs/start/) cluster with the next command:
+
+```shell
+minikube start
+```
+
+Note: If you are using macOS with Mx architecture, you need to install the `qemu` driver with `brew install qemu`.
+You can find more information about the driver [here](https://minikube.sigs.k8s.io/docs/drivers/qemu/).
+
+This [article](https://devopscube.com/minikube-mac/) can help you to configure the driver with minikube.
 
 ```shell
 minikube start --driver qemu --network socket_vmnet
@@ -105,5 +120,4 @@ Additionally, the images for the microservices are available at:
 ## What's next?
 
 - Add GitHub action to make the deploy with kubernetes instead of docker
-- Add a gateway service to manage the microservices communication
-- Add a service discovery service to manage the services registration
+- Fix the controllers & integration tests
