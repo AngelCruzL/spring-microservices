@@ -53,6 +53,13 @@ docker-compose -f docker/docker-compose-dev.yml up
 
 ### Kubernetes
 
+For local development purposes you can use minikube to deploy the services. First, you need to start the minikube
+cluster with the next command:
+
+```shell
+minikube start --driver qemu --network socket_vmnet
+```
+
 If you want to use the k8s pods you need to change the directory with `cd k8s` and then execute the next commands:
 
 ```shell
